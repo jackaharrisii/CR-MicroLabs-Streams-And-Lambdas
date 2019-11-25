@@ -3,9 +3,11 @@ package com.zipcodewilmington.streams.anthropoid;
 import com.zipcodewilmington.streams.tools.RandomUtils;
 import com.zipcodewilmington.streams.tools.StringUtils;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /**
@@ -38,8 +40,10 @@ public final class PersonFactory {
      * @param listSize - number of Person objects to create
      * @return - ArrayList of Person objects
      */ // TODO
+    // NOTE - SOLVE createPersonStream FIRST, THEN JUST CALL IT HERE AND CONVERT TO LIST
     public List<Person> createPersonList(int listSize) {
-        return null;
+        ArrayList<Person> newPersonList = createPersonStream(listSize).collect(Collectors.toCollection(ArrayList::new));
+        return newPersonList;
     }
 
 
@@ -47,9 +51,10 @@ public final class PersonFactory {
      * @param arrayLength - number of Person objects to create
      * @return - Array of Person objects
      */ // TODO
+    // NOTE - SOLVE createPersonStream FIRST, THEN JUST CALL IT HERE AND CONVERT TO LIST
     public Person[] createPersonArray(int arrayLength) {
-        return null;
-    }
+        Person[] newPersonArray = createPersonStream(arrayLength).toArray(Person[]::new);
+        return newPersonArray;    }
 
 
     /**
@@ -59,6 +64,11 @@ public final class PersonFactory {
      * @return - Stream representation of collection of Person objects
      */ // TODO
     public Stream<Person> createPersonStream(int streamCount) {
-        return null;
+        return Stream.generate(new PersonFactory()::createRandomPerson).limit(streamCount);
+        // from the slide ".GENERATE, STRATEGY 2" in the streams and lambdas lecture
+        // "new PersonFactory" is in place of "Math" and "createRandomPerson" is in place of "random"
+        // format is .generate([Class]::[method])
+        // then .limit([int]) limits the generate to run [int] number of times
     }
+
 }

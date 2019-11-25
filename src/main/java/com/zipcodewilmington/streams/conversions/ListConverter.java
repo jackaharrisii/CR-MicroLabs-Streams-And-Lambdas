@@ -3,6 +3,7 @@ package com.zipcodewilmington.streams.conversions;
 import com.zipcodewilmington.streams.anthropoid.Person;
 import com.zipcodewilmington.streams.anthropoid.PersonFactory;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -28,12 +29,13 @@ public final class ListConverter extends PersonConversionAgent<List<Person>> {
     }
 
     //TODO
+    // originally used objectSequence.stream(); - this made sense, but it didn't pass the tests...
     public Stream<Person> toStream() {
-        return null;
+        return this.toList().stream();
     }
 
     //TODO
     public Person[] toArray() {
-        return null;
+        return this.toStream().toArray(Person[]::new);
     }
 }
